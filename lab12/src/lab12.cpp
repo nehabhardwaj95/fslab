@@ -1,7 +1,7 @@
 #include<iostream>
 #include <string>
+#include<fstream>
 using namespace std;
-
 
 
 class Student {
@@ -13,6 +13,7 @@ public:
     void read();
     void pack(string filename);
     void search(string,string);
+    void unpack(ifstream &);
     void unpack(string);
     };
 int main()
@@ -38,13 +39,15 @@ int main()
         case 2:
             cout<<"Enter the USN to be searched\n";
             cin>>key;
+            cout<<"enter filename ";
+            cin >> fname;
             s.search(key,fname);
             break;
         case 3:
             //s.modify;
             break;
         case 4:
-            //s.unpack();
+            s.unpack(fname);
             break;
 
             }
@@ -63,22 +66,31 @@ void Student::read(){
 void Student::pack(string filename){
     string buffer;
     ofstream myf(filename.c_str(),ios::app);
-    buffer= usn+"|"+name+"|"+sem+"|"+branch;
+    buffer= usn+"|"+name+"|"+sem+"|"+branch+"|";
+    buffer.resize(100,'$');
     myf<<buffer<<endl;
     myf.close();
 
 }
-void Student::unpack(string fname)
+void Student::unpack(string filename)
 {
-    ifstream myf(fname.c_str());
+	string temp;
+	ifstream myf(filename.c_str());
     getline(myf,usn,'|');
     getline(myf,name,'|');
     getline(myf,branch,'|');
-    getline(myf,sem,'|');
+    getline(myf,sem,'$');
+    getline(myf,temp);
     myf.close();
-
-
-
+}
+void Student::unpack(ifstream &myf)
+{
+	string temp;
+    getline(myf,usn,'|');
+    getline(myf,name,'|');
+    getline(myf,branch,'|');
+    getline(myf,sem,'$');
+    getline(myf,temp);
 }
 void Student::search(string key,string fname)
 {
@@ -90,7 +102,7 @@ void Student::search(string key,string fname)
     while(!myf.eof())
     {
     cout<<"In search\n";
-    s[i].unpack(fname);
+    s[i].unpack(myf);
     if(key==s[i].usn)
     {
                 cout<<"record found\n";
