@@ -14,13 +14,15 @@ public:
     void pack(string filename);
     void search(string,string);
     void unpack(string);
+    void unpack(ifstream &);
     };
 int main()
 {
     int ch;
     //fstream f;
+
     Student s;
-    string fname,key;
+    string filename,key;
     while(1)
     {
     cout<<"1.insert 2.search 3.delete 4.modify\n";
@@ -32,13 +34,15 @@ int main()
         case 1:
             s.read();
             cout<<"enter filename ";
-            cin >> fname;
-            s.pack(fname);
+            cin >> filename;
+            s.pack(filename);
             break;
         case 2:
             cout<<"Enter the USN to be searched\n";
             cin>>key;
-            s.search(key,fname);
+            cout<<"enter filename ";
+                        cin >> filename;
+            s.search(key,filename);
             break;
         case 3:
             //s.modify;
@@ -68,28 +72,39 @@ void Student::pack(string filename){
     myf<<buffer<<endl;
     myf.close();
 
-}
-void Student::unpack(string fname)
+}void Student::unpack(ifstream &myf)
 {
-    ifstream myf(fname.c_str());
+	string temp;
     getline(myf,usn,'|');
     getline(myf,name,'|');
     getline(myf,branch,'|');
-    getline(myf,sem,'|');
+    getline(myf,sem,'$');
+    getline(myf,temp);
+
+}
+void Student::unpack(string filename)
+{
+	string temp;
+    ifstream myf(filename.c_str());
+    getline(myf,usn,'|');
+    getline(myf,name,'|');
+    getline(myf,branch,'|');
+    getline(myf,sem,'$');
+    getline(myf,temp);
     myf.close();
 
 }
-void Student::search(string key,string fname)
+void Student::search(string key,string filename)
 {
     Student s[10];
-    int i=0,count=0;
+    int i=0;
 
-    ifstream myf(fname.c_str());
+    ifstream myf(filename.c_str());
     //cout<<myf;
     while(!myf.eof())
     {
     cout<<"In search\n";
-    s[i].unpack(fname);
+    s[i].unpack(myf);
     if(key==s[i].usn)
     {
                 cout<<"record found\n";
