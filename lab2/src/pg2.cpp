@@ -4,6 +4,7 @@
 #include <string>
 #include<stdlib.h>
 using namespace std;
+
 class Student {
     string usn;
     string  name;
@@ -16,42 +17,6 @@ public:
     void unpack(string);
     int modify(string key,string);
     };
-int main()
-{
-    int ch;
-    //fstream f;
-    Student s;
-    string key;
-   string filename;
-    while(1)
-    {
-    cout<<"1.insert 2.search 3.delete 4.modify\n";
-    cout<<"enter your choice";
-    cin>>ch;
-         switch(ch)
-        {
-        case 1:
-            s.read();
-            cout<<"enter filename ";
-            cin >>filename;
-            s.pack(filename.c_str());
-            break;
-        case 2:
-            cout<<"Enter the USN to be searched\n";
-            cin>>key;
-            cout<<"enter filename ";
-                        cin >> filename;
-            s.search(key,filename);
-            break;
-        case 3:
-            s.modify(key,filename);
-            break;
-        case 4:
-            //s.unpack();
-            break;
-            }
-        
-}
 void Student::read(){
     cout<<"enter name"<<endl;
     cin>>name;
@@ -71,6 +36,7 @@ void Student::pack(string filename)
     buffer.resize(100,'$');
     fp<<buffer<<endl;
     fp.close();
+
 }
 void Student::unpack(string filename)
 {
@@ -82,12 +48,14 @@ void Student::unpack(string filename)
     getline(myf,sem,'$');
     getline(myf,temp);
     myf.close();
+
 }
 int Student::search(string key,string fname)
 {
 fstream fp;
 	string buffer;
 	int flag=0, pos=0;
+
 	fp.open(fname.c_str(),ios::in);
 	while (!fp.eof())
 	{
@@ -122,6 +90,7 @@ int Student::modify(string key,string filename)
 	if(pos){
 	cout<<"\n What to modify?";
 	cin>>choice;
+
 	switch(choice)
 	{
 		case 1: cout<<"\nUSN:"; cin>>usn; break;
@@ -130,6 +99,8 @@ int Student::modify(string key,string filename)
 		case 4:	cout<<"\nSemster:";cin>>sem;break;
 		default: cout <<"Wrong Choice";
 	}
+
+
 	file.open(filename.c_str(),ios::out);
 	pos-=101;//skip $\n
 	file.seekp(pos,ios::beg);
@@ -139,4 +110,43 @@ int Student::modify(string key,string filename)
 	else
 		exit(0);
 	return 0;
+}
+int main()
+{
+    int ch;
+    //fstream f;
+
+    Student s;
+    string key;
+   string filename;
+    while(1)
+    {
+    cout<<"1.insert 2.search 3.modify 4.exit\n";
+    cout<<"enter your choice";
+    cin>>ch;
+
+         switch(ch)
+        {
+        case 1:
+            s.read();
+            cout<<"enter filename ";
+            cin >>filename;
+            s.pack(filename.c_str());
+            break;
+        case 2:
+            cout<<"Enter the USN to be searched\n";
+            cin>>key;
+            cout<<"enter filename ";
+                        cin >> filename;
+            s.search(key,filename);
+            break;
+        case 3:
+            s.modify(key,filename);
+            break;
+        case 4:
+            exit(0);
+            break;
+
+            }
+        }
 }
