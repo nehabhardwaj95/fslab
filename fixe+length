@@ -70,7 +70,7 @@ void Student::pack(string filename)
 {
     string buffer;
     fstream fp;
-    fp.open(filename.c_str(),ios::out);
+    fp.open(filename.c_str(),ios::out|ios::app);
     buffer= usn+"|"+name+"|"+sem+"|"+branch;
     buffer.resize(100,'$');
     fp<<buffer<<endl;
