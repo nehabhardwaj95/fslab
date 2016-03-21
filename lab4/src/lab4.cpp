@@ -35,7 +35,7 @@ while(fp)
 fp.close(); 
  
 void student::read_data() 
- 
+ {
 cout<<"\nEnter usn: "; 
 cin>>usn; 
 cout<<"\nEnter name: "; 
@@ -44,9 +44,9 @@ cout<<"\nEnter branch";
 cin>>branch; 
 cout<<"\nEnter sem: "; 
 cin>>sem; 
- 
+ }
 void student::pack() 
- 
+ {
 int pos = fp.tellg(); 
 string buffer=usn+'|'+name +'|'+branch +'|'+sem+'|'+'$'; 
 fp<<buffer<<endl; 
